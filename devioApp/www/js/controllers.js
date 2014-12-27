@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -23,7 +23,21 @@ angular.module('starter.controllers', [])
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+    console.log($scope.loginData.username);
+    console.log($scope.loginData.password);
+        $http.post('login.php', {
+          username: $scope.loginData.username,
+          password: $scope.loginData.password
+        })
+        .success(function(data) {
+          // Gets called on a 200 response, but not on a 401
+          console.log('success');
+          console.log(data);
+        })
+        .error(function(err) {
+          // Never gets called & dies with error described below.
+          console.log('error');
+        });
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
